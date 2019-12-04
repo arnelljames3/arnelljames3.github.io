@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>API</title>
+  </head>
+  <body>
+
+    <div class="container mx-auto col-md-4">
+        <h1 class="text-muted text-center my-4">Weather API</h1>
+        <div class="input-group my-4 text-center text-muted">
+            <input type="text" id="input-city" placeholder="Enter City Name" class="form-control p-4">
+            <div class="input-group-append">
+                <button type="button" class="btn btn-primary" id="submit-btn">Go</button>
+            </div>
+        </div>
+
+        <div class="card shadow-lg rounded" id="card-data">
+            <img id="img-icon" class="icon mx-auto text-center">
+            <div class="text-muted text-uppercase text-center details">
+                <h5 class="my-3" id="city-name"></h5>
+                <h3 class="my-3" id="country-name"></h3>
+                <div class="my-3" id="div-desc"></div>
+                <div class="display-4 my-4">
+                  <span id="spn-temp"></span>
+                  <span>&deg; F</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+     crossorigin="anonymous"></script>
+
+    <script>
+              $(document).ready(function(){
+            var iconUrl = "";
+            $('#card-data').hide();
+
+            $("#submit-btn").click(function(){
+                var city = $("#input-city").val();
+                $.ajax({
+                    type: "POST",
+                    url: "http://api.openweathermap.org/data/2.5/weather?q="+ city +"&appid=a37cec0467561d22f52c421d0f1c7aa9&units=imperial",
+                    dataType : "json",
+                    success: function(result, status, xhr){
+                        //console.log(result);
+                        $('#card-data').show();
+                        let cityName=result.name;
+                        let description=result.weather[0].main;
+                        let temp=result.main.temp;
+                        let countryName = result.sys.country;
+                        let icon = result.weather[0].icon;
+                        let iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+                        console.log(icon);
+                        // console.log(temp);
+                        // let data=`<p><strong>City Name</strong>: ${cityName}</p>
+                        //         <p><strong>Temprature</strong>: ${temp}</p>
+                        //         <p><strong>Coutry Name</strong>: ${countyName}</p>`;
+                        //console.log(data);
+
+                        //$("#div-data").html(data);
+
+                        $("#img-icon").attr('src',iconUrl);
+
+                        $('#city-name').text(cityName);
+
+                        $('#country-name').text(countryName);
+
+                        $('#div-desc').text(description);
+
+                        $('#spn-temp').text(temp);
+
+                        //$("#div-data").css("color","red");
+                       // var icon = result.weather[0].icon;
+                        //console.log(icon);
+                       // var iconUrl = `http://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png`;
+                       // $("#img-icon").attr('src',iconUrl);
+                    },
+                    error: function(xhr, status, error){
+                        //console.log(error);
+                        alert(error + "Try Different City");
+                    }
+                });
+            });
+          
+        });
+    </script>
+  </body>
+</html>
