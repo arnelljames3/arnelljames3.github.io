@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "/home/arnell/Desktop/BitCoin Price Tracker App"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.port": 5501,
+		"liveServer.settings.multiRootWorkspaceName": "Mountain Travel "
+	}
+}
